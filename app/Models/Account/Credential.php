@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Credential extends Model
 {
     use HasFactory;
+
+    public $incrementing = false;
 }

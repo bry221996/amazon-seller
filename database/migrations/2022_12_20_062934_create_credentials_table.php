@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('credentials', function (Blueprint $table) {
             $table->id();
-            $table->string('accountId');
+            $table->string('account_id');
             $table->enum('service', ['advApi', 'spApi']);
             $table->string('oauth_code');
             $table->text('access_token');
