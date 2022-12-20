@@ -13,6 +13,6 @@ class Account extends Model
 
     public function marketplaces()
     {
-        return $this->belongsToMany('account_marketplaces');
+        return $this->belongsToMany(Marketplace::class, 'account_marketplaces');
     }
 }

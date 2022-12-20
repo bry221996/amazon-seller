@@ -11,6 +11,8 @@ class AccountController extends Controller
 {
     public function show(Account $account)
     {
+        $account->load('marketplaces');
+
         return AccountResource::make($account);
     }
 }
