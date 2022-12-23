@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\V1\Account\AccountController;
+use App\Http\Controllers\V1\API\Account\AccountController;
+use App\Http\Controllers\V1\API\Account\Advertising\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/accounts/{account}', [AccountController::class, 'show']);
+
+    Route::get('/accounts/{account}/advertising/profiles', [ProfileController::class, 'index']);
 });

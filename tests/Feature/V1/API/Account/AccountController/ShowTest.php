@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\API\V1\Account\AccountController;
+namespace Tests\Feature\V1\API\Account\AccountController;
 
 use App\Models\Account\Account;
 use App\Models\Account\AccountMarketplace;
