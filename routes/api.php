@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\API\Account\AccountController;
+use App\Http\Controllers\V1\API\Account\Advertising\PortfolioController;
 use App\Http\Controllers\V1\API\Account\Advertising\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,4 +25,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/accounts/{account}', [AccountController::class, 'show']);
 
     Route::get('/accounts/{account}/advertising/profiles', [ProfileController::class, 'index']);
+    Route::get('/accounts/{account}/advertising/profiles/{profile}/portfolios', [PortfolioController::class, 'index']);
 });

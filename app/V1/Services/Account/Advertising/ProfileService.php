@@ -2,40 +2,41 @@
 
 namespace App\V1\Services\Account\Advertising;
 
+
+use App\Models\Account\Credential;
+use App\Models\Account\Advertising\Profile;
 use App\Integrations\Amazon\Advertising;
-use App\V1\Repositories\Account\Advertising\ProfileRepository;
-use App\V1\Repositories\Account\CredentialRepository;
 use Illuminate\Support\Facades\Cache;
 
 class ProfileService
 {
-    protected $profileRepository;
-    protected $credentialRepository;
-
-    public function __construct(ProfileRepository $profileRepository, CredentialRepository $credentialRepository)
-    {
-        $this->profileRepository = $profileRepository;
-
-        $this->credentialRepository = $credentialRepository;
-    }
-
     /**
      * Get all profiles by account_id
      *
      * @param string $account_id
      * @param array $options
-     * @return void
+     * @return array Profile
      */
     public function getAllByAccountId(string $account_id, array $options = [])
     {
         $this->syncByAccountId($account_id);
 
-        return $this->profileRepository->getAllByAccountId($account_id, $options);
+        return Profile::where('account_id', $account_id)
+            ->with(isset($options['include']) ? $options['include'] : [])
+            ->get();
     }
 
+    /**
+     * Sync Accounts By ProfileId
+     *
+     * @param string $account_id
+     * @return void
+     */
     public function syncByAccountId(string $account_id)
     {
-        $credential = $this->credentialRepository->getByAccountIdAndService($account_id, 'advApi');
+        $credential = Credential::where('account_id', $account_id)
+            ->where('service', 'advApi')
+            ->first();
 
         if ($credential) {
             $profiles = Cache::remember("$account_id:profiles", 3600, function () use ($credential) {
@@ -60,7 +61,7 @@ class ProfileService
                     ];
                 })->toArray();
 
-            $this->profileRepository->upsert($formattedProfiles,  ['id'],  ['account_id', 'daily_budget']);
+            Profile::upsert($formattedProfiles,  ['id'],  ['account_id', 'daily_budget']);
         }
     }
 }

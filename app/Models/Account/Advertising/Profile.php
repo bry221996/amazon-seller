@@ -18,4 +18,9 @@ class Profile extends Model
     {
         return $this->belongsTo(Marketplace::class);
     }
+
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class);
+    }
 }
