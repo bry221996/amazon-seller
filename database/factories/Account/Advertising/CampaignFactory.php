@@ -2,7 +2,8 @@
 
 namespace Database\Factories\Account\Advertising;
 
-use App\Models\Account\Advertising\Profile;
+use App\Enums\Account\Advertising\CampaignType;
+use App\Models\Account\AccountMarketplace;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,13 +21,13 @@ class CampaignFactory extends Factory
         return [
             'id' =>  $this->faker->randomNumber(9),
             'profile_id' => function () {
-                return Profile::factory()->create()->id;
+                return AccountMarketplace::factory()->create()->profile_id;
             },
             'portfolio_id' => null,
             'name' =>  $this->faker->words(4, true),
             'budget' => $this->faker->numberBetween(1, 100),
             'budget_type' => 'daily',
-            'campaignType' => $this->faker->randomElement(['sponsoredProducts', 'sponsoredBrands', 'sponsoredDisplay']),
+            'campaign_type' => CampaignType::getRandomValue(),
             'state' => $this->faker->randomElement(['enabled', 'paused', 'archived']),
             'start_date' => $this->faker->date(),
             'end_date' => $this->faker->date(),

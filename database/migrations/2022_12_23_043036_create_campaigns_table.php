@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('budget_type');
             $table->string('state');
             $table->string('targeting_type')->nullable();
-            $table->enum('campaignType', ['sponsoredProducts', 'sponsoredBrands', 'sponsoredDisplay']);
-            $table->jsonb('dynamicBidding')->nullable();
+            $table->enum('campaign_type', ['sponsoredProducts', 'sponsoredBrands', 'sponsoredDisplay']);
+            $table->jsonb('dynamic_bidding')->nullable();
             $table->string('serving_status')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();

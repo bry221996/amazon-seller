@@ -20,7 +20,7 @@ class IndexTest extends TestCase
         $account = Account::factory()->create();
 
         AccountMarketplace::factory()
-            ->count($count = $this->faker()->numberBetween(1, 5))
+            ->count($count = $this->faker()->numberBetween(1, 3))
             ->create(['account_id' => $account->id]);
 
         $this->getJson('/api/v1/account/marketplaces', ['X-Account-ID' => $account->id])

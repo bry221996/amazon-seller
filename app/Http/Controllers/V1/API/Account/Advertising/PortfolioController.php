@@ -26,6 +26,12 @@ class PortfolioController extends Controller
         return PortfolioResource::collection($portfolios);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, $portfolioId)
     {
         $portfolio = Portfolio::where('id', $portfolioId)
