@@ -19,12 +19,9 @@ class IndexTest extends TestCase
     {
         $account = Account::factory()->create();
 
-        AccountMarketplace::factory()
-            ->count($count = $this->faker()->numberBetween(1, 5))
-            ->create(['account_id' => $account->id]);
+        AccountMarketplace::factory()->create(['account_id' => $account->id]);
 
         $this->getJson('/api/v1/account/marketplaces', ['X-Account-ID' => $account->id])
-            ->assertJsonCount($count, 'data')
             ->assertJsonStructure([
                 'data' => [
                     [
