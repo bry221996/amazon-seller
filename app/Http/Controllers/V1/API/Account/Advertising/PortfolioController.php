@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1\API\Account\Advertising;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Account\Advertising\PortfolioResource;
-use App\Http\Resources\Account\Advertising\ProfileResource;
 use App\Models\Account\Account;
 use App\Models\Account\Advertising\Profile;
 use App\V1\Services\Account\Advertising\PortfolioService;

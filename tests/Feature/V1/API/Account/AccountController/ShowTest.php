@@ -25,7 +25,6 @@ class ShowTest extends TestCase
             ->assertJsonFragment([
                 'id' => $account->id,
                 'name' => $account->name
-            ])
-            ->dump();
+            ]);
     }
 }

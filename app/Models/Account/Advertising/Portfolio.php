@@ -9,6 +9,10 @@ class Portfolio extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'in_budget' => 'boolean'
+    ];
+
     public function getBudgetAttribute($value)
     {
         return json_decode($value);

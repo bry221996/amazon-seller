@@ -22,45 +22,30 @@ class IndexTest extends TestCase
     {
         $account = Account::factory()->create();
 
-        $profile = Profile::factory()->has(Portfolio::factory()->count(10))
+        $profile = Profile::factory()
+            ->has(
+                Portfolio::factory()->count($count = $this->faker()->numberBetween(1, 10))
+            )
             ->create(['account_id' => $account->id]);
 
         $this->getJson("/api/v1/accounts/$account->id/advertising/profiles/$profile->id/portfolios")
-            ->dump();
-    }
-
-    /**
-     * @test
-     * @group account
-     * @group advertising
-     */
-    public function list_advertising_portfolios_with_marketplace()
-    {
-        $account = Account::factory()->create();
-
-        Profile::factory()
-            ->create(['account_id' => $account->id]);
-
-        $this->getJson("/api/v1/accounts/$account->id/advertising/profiles?include[]=marketplace")
-            ->assertOk()
+            ->assertJsonCount($count, 'data')
             ->assertJsonStructure([
                 'data' => [
                     [
                         'id',
-                        'account_id',
-                        'marketplace_id',
-                        'daily_budget',
-                        'marketplace' => [
-                            'id',
-                            'name',
-                            'region_id',
-                            'country',
-                            'timezone',
-                            'domain_name',
-                            'country_code',
-                            'currency_code',
-                            'language_code'
-                        ]
+                        'profile_id',
+                        'name',
+                        'budget' => [
+                            'amount',
+                            'policy',
+                            'currencyCode'
+                        ],
+                        'in_budget',
+                        'state',
+                        'serving_status',
+                        'created_at',
+                        'updated_at',
                     ]
                 ]
             ]);
