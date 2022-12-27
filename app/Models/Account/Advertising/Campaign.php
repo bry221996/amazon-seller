@@ -13,6 +13,11 @@ class Campaign extends Model
 
     public $timestamps = false;
 
+    public function portfolio()
+    {
+        return $this->belongsTo(Portfolio::class);
+    }
+
     public function scopeCampaignTypes($query, ...$value)
     {
         return $query->whereIn('campaign_type', $value);

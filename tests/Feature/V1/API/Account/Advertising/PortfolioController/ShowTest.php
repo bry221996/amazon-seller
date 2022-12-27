@@ -68,7 +68,7 @@ class ShowTest extends TestCase
 
         $marketplaceId = MarketplaceID::getRandomValue();
 
-        $account_marketplace = AccountMarketplace::factory()
+        AccountMarketplace::factory()
             ->withProfileId()
             ->create([
                 'account_id' => $account->id,

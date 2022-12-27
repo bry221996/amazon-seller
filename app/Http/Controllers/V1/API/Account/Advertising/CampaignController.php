@@ -19,6 +19,7 @@ class CampaignController extends Controller
     public function index(Request $request)
     {
         $campaigns = QueryBuilder::for(Campaign::where('profile_id', $request->marketplace->profile_id))
+            ->allowedIncludes(['portfolio'])
             ->allowedFilters([
                 AllowedFilter::scope('portfolio_ids'),
                 AllowedFilter::scope('campaign_types'),

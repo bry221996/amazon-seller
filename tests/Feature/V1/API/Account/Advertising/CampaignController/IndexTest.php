@@ -8,6 +8,7 @@ use App\Enums\MarketplaceID;
 use App\Models\Account\Account;
 use App\Models\Account\AccountMarketplace;
 use App\Models\Account\Advertising\Campaign;
+use App\Models\Account\Advertising\Portfolio;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -43,6 +44,48 @@ class IndexTest extends TestCase
         ])
             ->assertSuccessful()
             ->assertJsonCount($count, 'data');
+    }
+
+    /**
+     * @test
+     * @group account
+     * @group advertising
+     */
+    public function list_campaigns_with_portfolio()
+    {
+        $account = Account::factory()->create();
+
+        $marketplaceId = MarketplaceID::getRandomValue();
+
+        $account_marketplace = AccountMarketplace::factory()
+            ->withProfileId()
+            ->create([
+                'account_id' => $account->id,
+                'marketplace_id' => $marketplaceId
+            ]);
+
+        $portfolio = Portfolio::factory()->create(['profile_id' => $account_marketplace->profile_id]);
+
+        Campaign::factory()->count($this->faker()->numberBetween(1, 5))
+            ->create([
+                'profile_id' => $account_marketplace->profile_id,
+                'portfolio_id' => $portfolio->id
+            ]);
+
+        $this->getJson('/api/v1/account/advertising/campaigns?include[]=portfolio', [
+            'X-Account-ID' => $account->id,
+            'X-Marketplace-ID' => $marketplaceId
+        ])
+            ->assertSuccessful()
+            ->assertJsonStructure([
+                'data' => [
+                    [
+                        'id',
+                        'name',
+                        'portfolio'
+                    ]
+                ]
+            ]);
     }
 
     /**
