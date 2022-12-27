@@ -5,10 +5,9 @@ namespace App\Http\Controllers\V1\API\Account\Advertising;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Account\Advertising\PortfolioResource;
 use App\Models\Account\Account;
+use App\Models\Account\Advertising\Portfolio;
 use App\Models\Account\Advertising\Profile;
-use App\V1\Services\Account\Advertising\PortfolioService;
-use App\V1\Services\Account\Advertising\ProfileService;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PortfolioController extends Controller
 {
@@ -17,9 +16,11 @@ class PortfolioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Account $account, Profile $profile, PortfolioService $service)
+    public function index(Account $account, Profile $profile)
     {
-        $portfolios = $service->listByProfileId($profile->id, $request->all());
+        $portfolios = QueryBuilder::for(Portfolio::where('profile_id', $profile->id))
+            ->allowedFilters(['state'])
+            ->paginate();
 
         return PortfolioResource::collection($portfolios);
     }

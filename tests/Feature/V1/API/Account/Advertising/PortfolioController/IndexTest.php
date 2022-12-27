@@ -50,4 +50,27 @@ class IndexTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     * @group account
+     * @group advertising
+     */
+    public function list_advertising_portfolios_filtered_by_state()
+    {
+        $account = Account::factory()->create();
+
+        $states = ['enabled', 'paused', 'archived'];
+        $state = $this->faker()->randomElement($states);
+
+        $profile = Profile::factory()
+            ->has(Portfolio::factory()->enabled()->count($this->faker()->numberBetween(1, 3)))
+            ->has(Portfolio::factory()->paused()->count($this->faker()->numberBetween(1, 3)))
+            ->has(Portfolio::factory()->archived()->count($this->faker()->numberBetween(1, 3)))
+            ->create(['account_id' => $account->id]);
+
+        $this->getJson("/api/v1/accounts/$account->id/advertising/profiles/$profile->id/portfolios?filter[state]=$state")
+            ->assertJsonFragment(['state' => $state])
+            ->assertJsonMissing(['state' => $this->faker()->randomElement(collect($states)->filter(fn ($i) => $i !== $state)->toArray())]);
+    }
 }

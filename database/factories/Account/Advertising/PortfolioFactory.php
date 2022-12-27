@@ -42,4 +42,49 @@ class PortfolioFactory extends Factory
             'updated_at' => $this->faker->dateTime(),
         ];
     }
+
+    /**
+     * Indicate that the portfolio is enabled.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function enabled()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => 'enabled',
+                'serving_status' => 'PORTFOLIO_STATUS_ENABLED'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the portfolio is paused.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function paused()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => 'paused',
+                'serving_status' => 'PORTFOLIO_PAUSED'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the portfolio is archived.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function archived()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'state' => 'archived',
+                'serving_status' => 'PORTFOLIO_ARCHIVED'
+            ];
+        });
+    }
 }

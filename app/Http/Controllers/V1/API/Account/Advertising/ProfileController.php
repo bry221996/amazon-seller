@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Account\Advertising\ProfileResource;
 use App\Models\Account\Account;
 use App\Models\Account\Advertising\Profile;
-use App\V1\Services\Account\Advertising\ProfileService;
-use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProfileController extends Controller
 {
@@ -16,21 +15,12 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Account $account, ProfileService $service)
+    public function index(Account $account)
     {
-        $profiles = $service->getAllByAccountId($account->id, $request->all());
+        $profiles = QueryBuilder::for(Profile::where('account_id', $account->id))
+            ->allowedIncludes(['marketplace'])
+            ->get();
 
         return ProfileResource::collection($profiles);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Account\Advertising\Profile  $profile
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Profile $profile)
-    {
-        //
     }
 }
