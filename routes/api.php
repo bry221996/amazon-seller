@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['middleware' => 'marketplace'], function () {
             Route::group(['prefix' => 'advertising', 'middleware' => 'advertising'], function () {
-                Route::get('/portfolios', [PortfolioController::class, 'index']);
+                Route::resource('portfolios', PortfolioController::class, ['only' => ['index', 'show']]);
             });
         });
     });

@@ -9,6 +9,10 @@ class Portfolio extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+
+    public $timestamps = false;
+
     protected $casts = [
         'in_budget' => 'boolean'
     ];

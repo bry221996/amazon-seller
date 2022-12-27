@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Account\Advertising;
 
+use App\Models\Account\AccountMarketplace;
 use App\Models\Account\Advertising\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +21,7 @@ class PortfolioFactory extends Factory
         return [
             'id' =>  $this->faker->randomNumber(9),
             'profile_id' => function () {
-                return Profile::factory()->create()->id;
+                return AccountMarketplace::factory()->create()->profile_id;
             },
             'name' => $this->faker->words(4, true),
             'in_budget' => $this->faker->boolean(),

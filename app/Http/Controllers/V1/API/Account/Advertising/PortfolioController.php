@@ -25,4 +25,13 @@ class PortfolioController extends Controller
 
         return PortfolioResource::collection($portfolios);
     }
+
+    public function show(Request $request, $portfolioId)
+    {
+        $portfolio = Portfolio::where('id', $portfolioId)
+            ->where('profile_id',  $request->marketplace->profile_id)
+            ->firstOrFail();
+
+        return PortfolioResource::make($portfolio);
+    }
 }
