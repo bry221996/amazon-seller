@@ -7,6 +7,7 @@ use App\Http\Resources\Account\Advertising\PortfolioResource;
 use App\Models\Account\Account;
 use App\Models\Account\Advertising\Portfolio;
 use App\Models\Account\Advertising\Profile;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PortfolioController extends Controller
@@ -16,9 +17,9 @@ class PortfolioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Account $account, Profile $profile)
+    public function index(Request $request)
     {
-        $portfolios = QueryBuilder::for(Portfolio::where('profile_id', $profile->id))
+        $portfolios = QueryBuilder::for(Portfolio::where('profile_id', $request->marketplace->profile_id))
             ->allowedFilters(['state'])
             ->paginate();
 

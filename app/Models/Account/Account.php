@@ -14,7 +14,8 @@ class Account extends Model
 
     public function marketplaces()
     {
-        return $this->belongsToMany(Marketplace::class, 'account_marketplaces');
+        return $this->belongsToMany(Marketplace::class, 'account_marketplaces')
+            ->withPivot(['profile_id']);
     }
 
     public function advertisingProfiles()
