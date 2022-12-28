@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\V1\API\Account\AccountController;
 use App\Http\Controllers\V1\API\Account\AccountMarketplaceController;
+use App\Http\Controllers\V1\API\Account\Advertising\AdGroupController;
 use App\Http\Controllers\V1\API\Account\Advertising\CampaignController;
 use App\Http\Controllers\V1\API\Account\Advertising\PortfolioController;
 use App\Http\Controllers\V1\API\Account\Advertising\ProfileController;
@@ -33,6 +34,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::group(['prefix' => 'advertising', 'middleware' => 'advertising'], function () {
                 Route::resource('portfolios', PortfolioController::class, ['only' => ['index', 'show']]);
                 Route::resource('campaigns', CampaignController::class, ['only' => ['index', 'show']]);
+                Route::resource('ad-groups', AdGroupController::class, ['only' => ['index', 'show']]);
             });
         });
     });

@@ -2,14 +2,14 @@
 
 namespace Database\Factories\Account\Advertising;
 
-use App\Enums\Account\Advertising\CampaignType;
 use App\Models\Account\AccountMarketplace;
+use App\Models\Account\Advertising\Campaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Account\Advertising\Campaign>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Account\Advertising\AdGroup>
  */
-class CampaignFactory extends Factory
+class AdGroupFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -26,14 +26,12 @@ class CampaignFactory extends Factory
                     ->create()
                     ->profile_id;
             },
-            'portfolio_id' => null,
+            'campaign_id' => function () {
+                return Campaign::factory()->create()->id;
+            },
             'name' =>  $this->faker->words(4, true),
-            'budget' => $this->faker->numberBetween(1, 100),
-            'budget_type' => 'daily',
-            'campaign_type' => CampaignType::getRandomValue(),
+            'default_bid' => $this->faker->numberBetween(1, 10),
             'state' => $this->faker->randomElement(['enabled', 'paused', 'archived']),
-            'start_date' => $this->faker->date(),
-            'end_date' => $this->faker->date(),
             'created_at' => $this->faker->dateTime(),
             'updated_at' => $this->faker->dateTime(),
         ];

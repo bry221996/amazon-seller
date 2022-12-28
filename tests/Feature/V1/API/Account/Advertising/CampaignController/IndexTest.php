@@ -141,6 +141,11 @@ class IndexTest extends TestCase
     {
         return [
             [
+                'attribute' => 'state',
+                'filter_key' => 'states',
+                'values' => ['enabled', 'paused', 'archived']
+            ],
+            [
                 'attribute' => 'campaign_type',
                 'filter_key' => 'campaign_types',
                 'values' => CampaignType::getValues()

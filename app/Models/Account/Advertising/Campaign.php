@@ -32,4 +32,9 @@ class Campaign extends Model
     {
         return $query->whereIn('portfolio_id', $value);
     }
+
+    public function scopeStates($query, ...$value)
+    {
+        return $query->whereIn('state', $value);
+    }
 }

@@ -21,6 +21,7 @@ class CampaignController extends Controller
         $campaigns = QueryBuilder::for(Campaign::where('profile_id', $request->marketplace->profile_id))
             ->allowedIncludes(['portfolio'])
             ->allowedFilters([
+                AllowedFilter::scope('states'),
                 AllowedFilter::scope('portfolio_ids'),
                 AllowedFilter::scope('campaign_types'),
                 AllowedFilter::scope('targeting_types'),
@@ -37,8 +38,14 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $campaign = QueryBuilder::for(
+            Campaign::where('id', $id)->where('profile_id',  $request->marketplace->profile_id)
+        )
+            ->allowedIncludes(['portfolio'])
+            ->firstOrFail();
+
+        return CampaignResource::make($campaign);
     }
 }
